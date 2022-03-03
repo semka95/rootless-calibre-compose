@@ -1,0 +1,24 @@
+version: '3'
+services:
+  calibre-web:
+    image: lscr.io/linuxserver/calibre-web:0.6.16
+    container_name: calibre-web
+    environment:
+      - PUID=82
+      - PGID=82
+      - TZ=Europe/Moscow
+    env_file:
+      - calibre.env
+    volumes:
+      - ./config:/config
+      - /home/ubuntu/.local/share/docker/volumes/rootless-nextcloud-compose_nextcloud/_data/data/semyon/files/calibre:/books
+    ports:
+      - "8083:8083"
+    networks:
+      - proxy-tier
+    restart: unless-stopped
+
+networks:
+  proxy-tier:
+    external:
+      name: proxy-tier
